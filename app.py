@@ -98,7 +98,7 @@ if page == "Dashboard":
 # Saved Jobs
 # -----------------------------
 
-elif page == "Saved Jobs":
+if page == "Saved Jobs":
     st.header("Saved Jobs")
 
     with st.expander("Add New Job", expanded=True):
@@ -135,11 +135,15 @@ elif page == "Saved Jobs":
                         notes,
                     )
                     st.success("Job saved.")
+                    csv = df.to_csv(index=False).encode("utf-8")
+
+                    st.download_button(label="Download Jobs as CSV", data=csv, file_name="saved_jobs.csv",mime="text/csv")
+
                 else:
                     st.error("Company and job title are required.")
 
     jobs = get_jobs()
-
+    
     if jobs:
         df = pd.DataFrame(
             jobs,
